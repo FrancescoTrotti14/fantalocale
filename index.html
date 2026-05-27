@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivio Storico Fantacalcio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-950 text-gray-100 font-sans antialiased">
 
-    <!-- Navbar -->
     <nav class="bg-gray-900 border-b border-gray-800 p-4">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <h1 class="text-xl font-bold tracking-wider text-emerald-400">🏆 FANTA-MUSEO</h1>
             
-            <!-- MENU A TENDINA PER LE STAGIONI -->
             <div class="flex items-center space-x-3">
                 <label for="selettore-stagione" class="text-sm text-gray-400 font-medium">Seleziona Stagione:</label>
                 <select id="selettore-stagione" class="bg-gray-800 border border-gray-700 text-gray-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-emerald-500 cursor-pointer">
@@ -28,49 +25,42 @@
 
     <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
         
-        <!-- INTESTAZIONE DINAMICA DELLA SEZIONE -->
         <div class="border-b border-gray-800 pb-2">
-            <h2 id="titolo-stagione" class="text-2xl font-bold text-gray-200">✨ Stagione Attuale (2025/26)</h2>
+            <h2 id="titolo-stagione" class="text-2xl font-bold text-gray-200">✨ Caricamento...</h2>
         </div>
 
-        <!-- PODIO DINAMICO (CAMPIONATO E COPPE) -->
         <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- 1° Posto -->
             <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
                 <span class="text-4xl">👑</span>
                 <div>
                     <p class="text-sm text-gray-400">1° Posto Campionato</p>
-                    <h3 id="podio-1" class="text-lg font-bold text-emerald-400"></h3>
+                    <h3 id="podio-1" class="text-lg font-bold text-emerald-400">-</h3>
                 </div>
             </div>
-            <!-- 2° Posto -->
             <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
                 <span class="text-4xl">🥈</span>
                 <div>
                     <p class="text-sm text-gray-400">2° Posto Campionato</p>
-                    <h3 id="podio-2" class="text-lg font-bold text-gray-300">FC CADAVERI</h3>
+                    <h3 id="podio-2" class="text-lg font-bold text-gray-300">-</h3>
                 </div>
             </div>
-            <!-- 3° Posto -->
             <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
                 <span class="text-4xl">🥉</span>
                 <div>
                     <p class="text-sm text-gray-400">3° Posto Campionato</p>
-                    <h3 id="podio-3" class="text-lg font-bold text-amber-600">AM MUERT</h3>
+                    <h3 id="podio-3" class="text-lg font-bold text-amber-600">-</h3>
                 </div>
             </div>
-            <!-- Vincitore Coppa -->
             <div class="bg-gray-900 p-6 rounded-xl border border-emerald-900/50 bg-gradient-to-br from-gray-900 to-emerald-950/20 flex items-center space-x-4">
                 <span class="text-4xl">✨</span>
                 <div>
-                    <p class="text-sm text-gray-400">Vincitore Coppa (Coppa)</p>
-                    <h3 id="podio-coppa" class="text-lg font-bold text-yellow-400">AAA</h3>
+                    <p class="text-sm text-gray-400">Vincitore Coppa</p>
+                    <h3 id="podio-coppa" class="text-lg font-bold text-yellow-400">-</h3>
                     <p id="podio-coppa-secondo" class="text-xs text-gray-500 mt-0.5">Finale vs: -</p>
                 </div>
             </div>
         </section>
 
-        <!-- CLASSIFICA DETTAGLIATA DELLA STAGIONE SELEZIONATA -->
         <section>
             <h3 class="text-xl font-bold mb-4 text-gray-300">📋 Classifica Stagionale</h3>
             <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
@@ -84,8 +74,7 @@
                         </tr>
                     </thead>
                     <tbody id="tabella-stagione" class="divide-y divide-gray-800 text-sm">
-                        <!-- I dati verranno inseriti qui dal JavaScript -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </section>
@@ -167,9 +156,7 @@
         Albo d'Oro Ufficiale della Lega • Aggiornato al 2026
     </footer>
 
-    <!-- LOGICA JAVASCRIPT PER IL DATABASE LOCALE E IL MENU A TENDINA -->
     <script>
-        // IL TUO DATABASE LOCALE: Modifica questi dati inserendo la vostra storia!
         const datiStagioni = {
             attuale: {
                 titolo: "Stagione Attuale (2025/26)",
@@ -183,39 +170,38 @@
                     { pos: 5, squadra: "AC Trottorio", punti: "49", punteggio: 2540.5 },
                     { pos: 6, squadra: "Sushi Gang", punti: "42", punteggio: 2488 },
                     { pos: 7, squadra: "Briatellekers", punti: "39", punteggio: 2414 },
-                    { pos: 8, squadra: "MSC Cipolla", punti: "29", punteggio: 2337 },
+                    { pos: 8, squadra: "MSC Cipolla", punti: "29", punteggio: 2337 }
                 ]
             },
-            2024_25: {
-                titolo: "Stagione 2024/24 (Scorsa Stagione)",
-                campionato: { primo: "FC Cambiasso", secondo: "AC Picchia", terzo: "Zemanlandia" },
-                coppa: { vincente: "Zemanlandia", perdente_finale: "AC Picchia" },
+            "2024_25": {
+                titolo: "Stagione 2024/25 (Scorsa Stagione)",
+                campionato: { primo: "AC TROTTORIO", secondo: "FC CADAVERI", terzo: "AM MUERT" },
+                coppa: { vincente: "AC TROTTORIO", perdente_finale: "FC BOTTIGLIA" },
                 classifica: [
-                    { pos: 1, squadra: "FC Cambiasso", punti: "2.450,5" },
-                    { pos: 2, squadra: "AC Picchia", punti: "2.380,0" },
-                    { pos: 3, squadra: "Zemanlandia", punti: "2.310,5" },
-                    { pos: 4, squadra: "Speranza FC", punti: "2.200,0" }
+                    { pos: 1, squadra: "AC Trottorio", punti: "72", punteggio: 2650 },
+                    { pos: 2, squadra: "FC Cadaveri", punti: "65", punteggio: 2580 },
+                    { pos: 3, squadra: "Am Muert", punti: "58", punteggio: 2490 },
+                    { pos: 4, squadra: "FC Bottiglia", punti: "50", punteggio: 2410 }
                 ]
             },
-            2023_24: {
+            "2023_24": {
                 titolo: "Stagione 2023/24",
-                campionato: { primo: "AC Picchia", secondo: "Speranza FC", terzo: "FC Cambiasso" },
-                coppa: { vincente: "FC Cambiasso", perdente_finale: "Zemanlandia" },
+                campionato: { primo: "Briatellekers", secondo: "AC Trottorio", terzo: "Herta Vernello" },
+                coppa: { vincente: "AC Trottorio", perdente_finale: "FC Cadaveri" },
                 classifica: [
-                    { pos: 1, squadra: "AC Picchia", punti: "2.410,0" },
-                    { pos: 2, squadra: "Speranza FC", punti: "2.350,5" },
-                    { pos: 3, squadra: "FC Cambiasso", punti: "2.300,0" },
-                    { pos: 4, squadra: "Zemanlandia", punti: "2.110,0" }
+                    { pos: 1, squadra: "Briatellekers", punti: "69", punteggio: 2610 },
+                    { pos: 2, squadra: "AC Trottorio", punti: "64", punteggio: 2550 },
+                    { pos: 3, squadra: "Herta Vernello", punti: "55", punteggio: 2500 },
+                    { pos: 4, squadra: "FC Cadaveri", punti: "48", punteggio: 2420 }
                 ]
             }
         };
 
-        // Funzione per aggiornare la UI in base alla stagione scelta
         function aggiornaPagina(chiaveStagione) {
             const dati = datiStagioni[chiaveStagione];
             if (!dati) return;
 
-            // Aggiorna Titolo e Podio
+            // Aggiorna Titolo e Podio inserendo i valori testuali in modo sicuro
             document.getElementById('titolo-stagione').innerText = `✨ ${dati.titolo}`;
             document.getElementById('podio-1').innerText = dati.campionato.primo;
             document.getElementById('podio-2').innerText = dati.campionato.secondo;
@@ -223,9 +209,9 @@
             document.getElementById('podio-coppa').innerText = dati.coppa.vincente;
             document.getElementById('podio-coppa-secondo').innerText = `Finale vs: ${dati.coppa.perdente_finale}`;
 
-            // Aggiorna la Tabella Classifica
+            // Rigenera la Tabella
             const corpoTabella = document.getElementById('tabella-stagione');
-            corpoTabella.innerHTML = ""; // Svuota la tabella precedente
+            corpoTabella.innerHTML = "";
 
             dati.classifica.forEach(item => {
                 let colorePosizione = "text-gray-400";
@@ -245,13 +231,13 @@
             });
         }
 
-        // Ascolta il cambio del menu a tendina
-        document.getElementById('selettore-stagione').addEventListener('change', (e) => {
+        // Ascolta l'evento di cambio sulla select
+        document.getElementById('selettore-stagione').addEventListener('change', function(e) {
             aggiornaPagina(e.target.value);
         });
 
-        // Carica la stagione "attuale" di default all'avvio della pagina
-        document.addEventListener("DOMContentLoaded", () => {
+        // Avvio iniziale automatico
+        document.addEventListener("DOMContentLoaded", function() {
             aggiornaPagina('attuale');
         });
     </script>

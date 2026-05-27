@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda Squadra - Fanta-Museo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+        <span class="logo-dot"></span>
+        Fanta-Museo
+    </div>
+</nav>
+
+<div class="hero">
+    <a href="index.html" class="btn-back">← Torna alla Home</a>
+    <h1 class="season-title" id="nome-squadra">Caricamento...</h1>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <div class="section-title">Informazioni Societarie</div>
+        <div class="section-line"></div>
+    </div>
+    
+    <div class="info-squadra-box">
+        <p><strong>Presidente:</strong> <span id="info-presidente">Dato non disponibile</span></p>
+        <p><strong>Stato attuale:</strong> In attività</p>
+        <p><strong>Descrizione:</strong> Membro ufficiale della lega fanta-museale. Storico societario disponibile negli archivi dell'Albo d'Oro.</p>
+    </div>
+</div>
+
+<footer>Albo d'Oro Ufficiale della Lega &nbsp;·&nbsp; Aggiornato al 2026</footer>
+
+<script>
+    // Database dei presidenti associati alle squadre
+    const fantaAllenatori = {
+        "FC Bottiglia": "Alessandro B.",
+        "FC Cadaveri": "Giacomo C.",
+        "Am Muert": "Donato M.",
+        "Herta Vernello": "Francesco V.",
+        "AC Trottorio": "Luca T.",
+        "Sushi Gang": "Yuri S.",
+        "Briatellekers": "Michele B.",
+        "MSC Cipolla": "Stefano C."
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Estrae il nome dall'URL (?nome=...)
+        const params = new URLSearchParams(window.location.search);
+        const nomeSquadra = params.get('nome');
+
+        if (nomeSquadra) {
+            document.getElementById('nome-squadra').innerText = nomeSquadra;
+            document.title = `${nomeSquadra} - Fanta-Museo`;
+
+            // Controlla se il nome inserito (esatto o con maiuscole/minuscole diverse) esiste nel database
+            const chiavi = Object.keys(fantaAllenatori);
+            const chiaveTrovata = chiavi.find(k => k.toLowerCase() === nomeSquadra.toLowerCase());
+
+            if (chiaveTrovata) {
+                document.getElementById('info-presidente').innerText = fantaAllenatori[chiaveTrovata];
+            }
+        } else {
+            document.getElementById('nome-squadra').innerText = "Squadra Non Trovata";
+        }
+    });
+</script>
+</body>
+</html>

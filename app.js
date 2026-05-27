@@ -47,7 +47,7 @@ function aggiornaPagina(chiave) {
     // Aggiornamento Titolo Hero con animazione
     const titolo = document.getElementById('titolo-stagione');
     titolo.classList.remove('fade');
-    void titolo.offsetWidth; // Trigger reflow per riavviare l'animazione CSS
+    void titolo.offsetWidth; 
     titolo.classList.add('fade');
     titolo.innerHTML = d.titolo.replace(/(\d{4}\/\d{2,4})/, '<span>$1</span>');
 
@@ -72,10 +72,13 @@ function aggiornaPagina(chiave) {
         else if (r.pos === 3) badge = `<span class="badge-pos badge-3">3</span>`;
         else badge = `<span style="color:var(--muted);font-family:'DM Mono',monospace;font-weight:500;font-size:.78rem">${r.pos}</span>`;
 
+        // Genera la riga con il link dinamico alla scheda squadra
         tbody.innerHTML += `
         <tr>
             <td class="td-pos">${badge}</td>
-            <td class="td-squadra">${r.squadra}</td>
+            <td class="td-squadra">
+                <a href="squadra.html?nome=${encodeURIComponent(r.squadra)}" class="team-link">${r.squadra}</a>
+            </td>
             <td class="td-num">${r.punti}</td>
             <td class="td-num">${r.punteggio}</td>
         </tr>`;

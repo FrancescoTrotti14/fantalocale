@@ -34,7 +34,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* NAV - Mobile Optimized Height & Target */
+        /* NAV */
         nav {
             position: sticky;
             top: 0;
@@ -44,7 +44,7 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             padding: 0 1rem;
-            height: 60px; /* Leggermente più alto per un look premium */
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -86,14 +86,13 @@
             display: none;
         }
 
-        /* Better touch target for select */
         select#selettore-stagione {
             appearance: none;
             -webkit-appearance: none;
             background: var(--bg3);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 10px 36px 10px 14px; /* Più spazio per il tocco */
+            padding: 10px 36px 10px 14px;
             border-radius: 10px;
             font-family: 'DM Sans', sans-serif;
             font-size: 0.85rem;
@@ -111,7 +110,7 @@
 
         /* HERO */
         .hero {
-            padding: 2rem 1rem 1rem;
+            padding: 2rem 1rem 0.5rem;
             max-width: 1100px;
             margin: 0 auto;
         }
@@ -126,65 +125,111 @@
 
         .season-title span { color: var(--gold); }
 
-        /* PODIO — Stack ordinato su mobile */
-        .podio-grid {
-            max-width: 1100px;
-            margin: 1rem auto 0;
+        /* STRUTTURA NUOVO PODIO */
+        .podium-container {
+            max-width: 600px;
+            margin: 1.5rem auto 0;
             padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px; /* Staccati leggermente invece del border-collapse per un look più moderno */
-        }
-
-        .podio-card {
-            background: var(--bg2);
-            padding: 1.2rem 1rem;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            gap: 12px;
+        }
+
+        /* Il blocco dei 3 gradini */
+        .podium-campionato {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 180px;
             position: relative;
-            overflow: hidden;
+            padding-top: 20px;
         }
 
-        .podio-card::before {
-            content: '';
+        .podium-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            padding: 12px 6px;
+            position: relative;
+            min-width: 0;
+        }
+
+        /* Altezze differenziate dei gradini */
+        .podium-step.p2 { height: 75%; background: linear-gradient(to top, #121216, #16161c); z-index: 2; }
+        .podium-step.p1 { height: 100%; background: linear-gradient(to top, #141419, #1c1c24); z-index: 3; border-color: rgba(201,168,76,0.2); }
+        .podium-step.p3 { height: 60%; background: linear-gradient(to top, #101014, #141418); z-index: 1; }
+
+        /* Numeri giganti di sfondo sui gradini */
+        .podium-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1;
+            opacity: 0.08;
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
         }
+        .p1 .podium-number { color: var(--gold); opacity: 0.12; }
 
-        .podio-card.oro::before    { background: var(--gold); }
-        .podio-card.argento::before { background: var(--silver); }
-        .podio-card.bronzo::before  { background: var(--bronze); }
-        .podio-card.coppa::before   { background: var(--green); }
+        .podium-medal { font-size: 1.3rem; margin-bottom: 2px; }
 
-        .podio-rank  { font-size: 1.5rem; line-height: 1; }
-
-        .podio-label {
-            font-size: 0.65rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
+        .podium-team {
             font-weight: 500;
-        }
-
-        .podio-name {
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
             line-height: 1.2;
+            width: 100%;
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Evita rotture di testo se il nome è lungo */
+            text-overflow: ellipsis;
+            z-index: 2;
+        }
+        .p1 .podium-team { color: var(--gold-light); font-size: 0.92rem; font-weight: 600; }
+        .p2 .podium-team { color: var(--silver); }
+        .p3 .podium-team { color: var(--bronze); }
+
+        /* Card Coppa sotto al podio */
+        .podium-coppa-card {
+            background: rgba(29,185,84,0.04);
+            border: 1px solid rgba(29,185,84,0.15);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
         }
 
-        .podio-name.oro    { color: var(--gold-light); }
-        .podio-name.argento { color: var(--silver); }
-        .podio-name.bronzo  { color: var(--bronze); }
-        .podio-name.coppa   { color: var(--green); }
+        .coppa-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
 
-        .podio-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .coppa-icon { font-size: 1.5rem; }
+
+        .coppa-details { min-width: 0; }
+        .coppa-title { font-size: 0.62rem; font-weight: 500; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; }
+        .coppa-winner { font-weight: 500; font-size: 0.95rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .coppa-loser {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 40%;
+        }
 
         /* SEZIONI */
         .section {
@@ -210,7 +255,7 @@
 
         .section-line { flex: 1; height: 1px; background: var(--border); }
 
-        /* TABELLE — Mobile padding friendly */
+        /* TABELLE */
         .table-wrap {
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -233,10 +278,7 @@
 
         thead th.num { text-align: center; }
 
-        tbody tr {
-            border-top: 1px solid var(--border);
-        }
-
+        tbody tr { border-top: 1px solid var(--border); }
         tbody td { padding: 12px 10px; font-size: 0.88rem; }
 
         .td-pos  { text-align: center; width: 40px; }
@@ -247,14 +289,14 @@
             font-size: 0.85rem;
             color: var(--text);
         }
-        tr td:last-child { color: var(--muted); } /* Ptg meno marcato rispetto ai punti reali */
+        tr td:last-child { color: var(--muted); }
 
         .badge-pos {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 24px; height: 24px;
-            border-radius: 6px; /* Squadrati moderni */
+            border-radius: 6px;
             font-weight: 600;
             font-size: 0.75rem;
         }
@@ -263,7 +305,7 @@
         .badge-2 { background: rgba(155,163,175,0.12); color: var(--silver); }
         .badge-3 { background: rgba(192,120,64,0.15); color: var(--bronze); }
 
-        /* ALBO D'ORO — Mobile Scroll horizontally if tight */
+        /* ALBO D'ORO */
         .albo-list { display: flex; flex-direction: column; }
 
         .albo-row {
@@ -291,7 +333,7 @@
             display: flex;
             gap: 4px;
             flex-shrink: 0;
-            overflow-x: auto; /* Permette lo swipe se lo schermo è minuscolo */
+            overflow-x: auto;
             padding-bottom: 2px;
         }
 
@@ -312,8 +354,6 @@
         .trofeo-pill.coppa { color: var(--green);      border-color: rgba(29,185,84,0.15);  background: rgba(29,185,84,0.06); }
         .trofeo-pill.sec   { color: var(--silver);     border-color: rgba(155,163,175,0.15);background: rgba(155,163,175,0.06); }
         .trofeo-pill.ter   { color: var(--bronze);     border-color: rgba(192,120,64,0.15); background: rgba(192,120,64,0.06); }
-        
-        /* Grafica ottimizzata per lo 0: più spento per dare priorità visiva alle vittorie */
         .trofeo-pill.zero  { color: var(--muted); border-color: transparent; background: rgba(255,255,255,0.01); opacity: 0.4; }
 
         .albo-legend {
@@ -352,17 +392,18 @@
             nav { padding: 0 1.5rem; }
             .season-label { display: block; }
             .hero { padding: 3rem 1.5rem 1.5rem; }
-            .podio-grid { grid-template-columns: repeat(4, 1fr); padding: 0 1.5rem; gap: 12px; }
+            .podium-container { max-width: 1100px; padding: 0 1.5rem; flex-direction: row; align-items: flex-end; gap: 20px; }
+            .podium-campionato { flex: 2; height: 220px; }
+            .podium-coppa-card { flex: 1; height: 80px; margin-bottom: 0; }
             .section { padding: 0 1.5rem; }
             select#selettore-stagione { max-width: 220px; }
             .td-squadra { max-width: none; }
-            .trofeo-pill { gap: 6px; padding: 4px 10px; }
         }
 
         @media (min-width: 900px) {
             nav { padding: 0 2rem; }
             .hero { padding: 4rem 2rem 2rem; }
-            .podio-grid { padding: 0 2rem; }
+            .podium-container { padding: 0 2rem; }
             .section { padding: 0 2rem; margin-top: 3.5rem; }
         }
 
@@ -391,27 +432,39 @@
     <h1 class="season-title" id="titolo-stagione">Caricamento...</h1>
 </div>
 
-<div class="podio-grid">
-    <div class="podio-card oro">
-        <div class="podio-rank">🥇</div>
-        <div class="podio-label">Campionato</div>
-        <div class="podio-name oro" id="podio-1">—</div>
+<!-- NUOVA SEZIONE PODIO STILE REALE -->
+<div class="podium-container">
+    <div class="podium-campionato">
+        <!-- 2° Posto -->
+        <div class="podium-step p2">
+            <div class="podium-number">2</div>
+            <div class="podium-medal">🥈</div>
+            <div class="podium-team" id="podio-2">—</div>
+        </div>
+        <!-- 1° Posto -->
+        <div class="podium-step p1">
+            <div class="podium-number">1</div>
+            <div class="podium-medal">🥇</div>
+            <div class="podium-team" id="podio-1">—</div>
+        </div>
+        <!-- 3° Posto -->
+        <div class="podium-step p3">
+            <div class="podium-number">3</div>
+            <div class="podium-medal">🥉</div>
+            <div class="podium-team" id="podio-3">—</div>
+        </div>
     </div>
-    <div class="podio-card argento">
-        <div class="podio-rank">🥈</div>
-        <div class="podio-label">2° posto</div>
-        <div class="podio-name argento" id="podio-2">—</div>
-    </div>
-    <div class="podio-card bronzo">
-        <div class="podio-rank">🥉</div>
-        <div class="podio-label">3° posto</div>
-        <div class="podio-name bronzo" id="podio-3">—</div>
-    </div>
-    <div class="podio-card coppa">
-        <div class="podio-rank">🏆</div>
-        <div class="podio-label">Vincitore Coppa</div>
-        <div class="podio-name coppa" id="podio-coppa">—</div>
-        <div class="podio-sub" id="podio-coppa-secondo">Finale vs: —</div>
+
+    <!-- Fascia Speciale Coppa Italia/Lega -->
+    <div class="podium-coppa-card">
+        <div class="coppa-left">
+            <div class="coppa-icon">🏆</div>
+            <div class="coppa-details">
+                <div class="coppa-title">Vincitore Coppa</div>
+                <div class="coppa-winner" id="podio-coppa">—</div>
+            </div>
+        </div>
+        <div class="coppa-loser" id="podio-coppa-secondo">vs —</div>
     </div>
 </div>
 
@@ -572,7 +625,7 @@
         document.getElementById('podio-2').innerText = d.campionato.secondo;
         document.getElementById('podio-3').innerText = d.campionato.terzo;
         document.getElementById('podio-coppa').innerText = d.coppa.vincente;
-        document.getElementById('podio-coppa-secondo').innerText = 'Finale vs: ' + d.coppa.perdente_finale;
+        document.getElementById('podio-coppa-secondo').innerText = 'vs ' + d.coppa.perdente_finale;
 
         const tbody = document.getElementById('tabella-stagione');
         tbody.innerHTML = '';

@@ -3,163 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archivio Storico Fantacalcio</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Fanta-Museo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #F0D080;
+            --gold-dim: #6b5520;
+            --green: #1DB954;
+            --green-dark: #0e7a35;
+            --silver: #9BA3AF;
+            --bronze: #C07840;
+            --bg: #0A0A0C;
+            --bg2: #111115;
+            --bg3: #1A1A20;
+            --border: rgba(255,255,255,0.07);
+            --text: #E8E8F0;
+            --muted: #5A5A6A;
+        }
+ 
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+ 
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,12,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+ 
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+ 
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            display: inline-block;
+            animation: pulse 2s ease-in-out infinite;
+        }
+ 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+ 
+        .season-select-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+ 
+        .season-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 400;
+        }
+ 
+        select#selettore-stagione {
+            appearance: none;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 36px 7px 14px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 400;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A5A6A' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            transition: border-color 0.2s;
+        }
+ 
+        select#selettore-stagione:focus {
+            outline: none;
+            border-color: var(--gold-dim);
+        }
+ 
+        /* ── HERO ── */
+        .hero {
+            padding: 4rem 2rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+ 
+        .season-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            letter-spacing: 0.05em;
+            line-height: 1;
+            color: var(--text);
+            transition: opacity 0.3s;
+        }
+ 
+        .season-title span {
+            color: var(--gold);
+        }
+ 
+        /* ── PODIO CARDS ── */
+        .podio-grid {
+            max-width: 1100px;
+            margin: 2.5rem auto 0;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+ 
+        .podio-card {
+            background: var(--bg2);
+            padding: 1.5rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+ 
+        .podio-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+        }
+ 
+        .podio-card.oro::before { background: var(--gold); }
+        .podio-card.argento::before { background: var(--silver); }
+        .podio-card.bronzo::before { background: var(--bronze); }
+        .podio-card.coppa::before { background: var(--green); }
+ 
+        .podio-card:hover { background: var(--bg3); }
+ 
+        .podio-rank {
+            font-size: 1.6rem;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+ 
+        .podio-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 400;
+        }
+ 
+        .podio-name {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+ 
+        .podio-name.oro { color: var(--gold-light); }
+        .podio-name.argento { color: var(--silver); }
+        .podio-name.bronzo { color: var(--bronze); }
+        .podio-name.coppa { color: var(--green); }
+ 
+        .podio-sub {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+ 
+        /* ── SEZIONI ── */
+        .section {
+            max-width: 1100px;
+            margin: 3.5rem auto 0;
+            padding: 0 2rem;
+        }
+ 
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 1.25rem;
+        }
+ 
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.08em;
+            color: var(--text);
+        }
+ 
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+ 
+        /* ── TABELLA CLASSIFICA ── */
+        .table-wrap {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+ 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+ 
+        thead th {
+            background: var(--bg3);
+            padding: 10px 16px;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 400;
+            text-align: left;
+        }
+ 
+        thead th.num { text-align: center; }
+ 
+        tbody tr {
+            border-top: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+ 
+        tbody tr:hover { background: rgba(255,255,255,0.025); }
+ 
+        tbody td {
+            padding: 13px 16px;
+            font-size: 0.87rem;
+        }
+ 
+        .td-pos {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            text-align: center;
+            width: 52px;
+        }
+ 
+        .td-squadra { font-weight: 500; }
+        .td-num {
+            text-align: center;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+ 
+        .badge-pos {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-weight: 500;
+            font-size: 0.78rem;
+        }
+ 
+        .badge-1 { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+        .badge-2 { background: rgba(155,163,175,0.12); color: var(--silver); }
+        .badge-3 { background: rgba(192,120,64,0.15); color: var(--bronze); }
+ 
+        /* ── ALBO D'ORO ── */
+        .albo-table thead th:not(:first-child) { text-align: center; }
+ 
+        .albo-count {
+            text-align: center;
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+ 
+        .albo-count.campionati { color: var(--gold-light); }
+        .albo-count.coppe { color: var(--green); }
+        .albo-count.secondi { color: var(--silver); }
+        .albo-count.terzi { color: var(--bronze); }
+ 
+        .albo-count.zero { color: var(--muted); font-weight: 400; font-size: 0.85rem; }
+ 
+        .albo-squadra { font-weight: 500; font-size: 0.9rem; }
+ 
+        /* ── FOOTER ── */
+        footer {
+            margin-top: 5rem;
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+ 
+        /* ── RESPONSIVE ── */
+        @media (max-width: 720px) {
+            .podio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+ 
+        @media (max-width: 480px) {
+            nav { padding: 0 1rem; }
+            .hero, .section { padding: 0 1rem; }
+            .podio-grid { padding: 0 1rem; margin-left: 1rem; margin-right: 1rem; }
+            .logo { font-size: 1.3rem; }
+            .podio-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+ 
+        /* ── FADE ANIMAZIONE ── */
+        .fade { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-950 text-gray-100 font-sans antialiased">
-
-    <nav class="bg-gray-900 border-b border-gray-800 p-4">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h1 class="text-xl font-bold tracking-wider text-emerald-400">🏆 FANTA-MUSEO</h1>
-            
-            <div class="flex items-center space-x-3">
-                <label for="selettore-stagione" class="text-sm text-gray-400 font-medium">Seleziona Stagione:</label>
-                <select id="selettore-stagione" class="bg-gray-800 border border-gray-700 text-gray-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-emerald-500 cursor-pointer">
-                    <option value="attuale">Stagione Attuale (2025/26)</option>
-                    <option value="2024_25">Stagione 2024/25</option>
-                    <option value="2023_24">Stagione 2023/24</option>
-                </select>
-            </div>
+<body>
+ 
+    <nav>
+        <div class="logo">
+            <span class="logo-dot"></span>
+            Fanta-Museo
+        </div>
+        <div class="season-select-wrap">
+            <span class="season-label">Stagione</span>
+            <select id="selettore-stagione">
+                <option value="attuale">2025/26 (attuale)</option>
+                <option value="2024_25">2024/25</option>
+                <option value="2023_24">2023/24</option>
+            </select>
         </div>
     </nav>
-
-    <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
-        
-        <div class="border-b border-gray-800 pb-2">
-            <h2 id="titolo-stagione" class="text-2xl font-bold text-gray-200">✨ Caricamento...</h2>
+ 
+    <div class="hero">
+        <h1 class="season-title" id="titolo-stagione">⏳ Caricamento...</h1>
+    </div>
+ 
+    <div class="podio-grid">
+        <div class="podio-card oro">
+            <div class="podio-rank">🥇</div>
+            <div class="podio-label">Campionato</div>
+            <div class="podio-name oro" id="podio-1">—</div>
         </div>
-
-        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-                <span class="text-4xl">👑</span>
-                <div>
-                    <p class="text-sm text-gray-400">1° Posto Campionato</p>
-                    <h3 id="podio-1" class="text-lg font-bold text-emerald-400">-</h3>
-                </div>
-            </div>
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-                <span class="text-4xl">🥈</span>
-                <div>
-                    <p class="text-sm text-gray-400">2° Posto Campionato</p>
-                    <h3 id="podio-2" class="text-lg font-bold text-gray-300">-</h3>
-                </div>
-            </div>
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-                <span class="text-4xl">🥉</span>
-                <div>
-                    <p class="text-sm text-gray-400">3° Posto Campionato</p>
-                    <h3 id="podio-3" class="text-lg font-bold text-amber-600">-</h3>
-                </div>
-            </div>
-            <div class="bg-gray-900 p-6 rounded-xl border border-emerald-900/50 bg-gradient-to-br from-gray-900 to-emerald-950/20 flex items-center space-x-4">
-                <span class="text-4xl">✨</span>
-                <div>
-                    <p class="text-sm text-gray-400">Vincitore Coppa</p>
-                    <h3 id="podio-coppa" class="text-lg font-bold text-yellow-400">-</h3>
-                    <p id="podio-coppa-secondo" class="text-xs text-gray-500 mt-0.5">Finale vs: -</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h3 class="text-xl font-bold mb-4 text-gray-300">📋 Classifica Stagionale</h3>
-            <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-800/50 text-gray-400 text-xs uppercase font-semibold">
-                            <th class="p-4 w-16">Pos</th>
-                            <th class="p-4">Squadra</th>
-                            <th class="p-4 text-center">Punti</th>
-                            <th class="p-4 text-center">Punteggio</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabella-stagione" class="divide-y divide-gray-800 text-sm">
-                        </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="pt-6 border-t border-gray-800">
-            <h2 class="text-2xl font-bold mb-2 text-gray-200">📊 Albo d'oro Generale</h2>
-            <p class="text-sm text-gray-400 mb-4">Il totale dei trofei e dei podi conquistati nella storia della nostra lega.</p>
-            <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-800/50 text-gray-400 text-xs uppercase font-semibold">
-                                <th class="p-4">Squadra</th>
-                                <th class="p-4 text-center text-emerald-400">🥇 Campionati</th>
-                                <th class="p-4 text-center text-yellow-400">✨ Coppe</th>
-                                <th class="p-4 text-center text-gray-300">🥈 Secondi Posti</th>
-                                <th class="p-4 text-center text-amber-600">🥉 Terzi Posti</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-800 text-sm">
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">AM MUERT</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">0</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">1</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">1</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">AC TROTTORIO</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">1</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">4</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">2</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">2</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">BRIATELLEKERS</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">1</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">1</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">FC BOTTIGLIA</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">2</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">1</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">1</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">0</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">FC CADAVERI</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">2</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">1</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">2</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">MSC CIPOLLA</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">0</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">1</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">0</td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="p-4 font-semibold text-base text-gray-100">HERTA VERNELLO</td>
-                                <td class="p-4 text-center font-bold text-lg text-emerald-400">1</td>
-                                <td class="p-4 text-center font-bold text-lg text-yellow-500">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-gray-300">0</td>
-                                <td class="p-4 text-center font-semibold text-base text-amber-600">0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-gray-900 border-t border-gray-800 text-center p-6 text-xs text-gray-500 mt-12">
-        Albo d'Oro Ufficiale della Lega • Aggiornato al 2026
+        <div class="podio-card argento">
+            <div class="podio-rank">🥈</div>
+            <div class="podio-label">2° posto</div>
+            <div class="podio-name argento" id="podio-2">—</div>
+        </div>
+        <div class="podio-card bronzo">
+            <div class="podio-rank">🥉</div>
+            <div class="podio-label">3° posto</div>
+            <div class="podio-name bronzo" id="podio-3">—</div>
+        </div>
+        <div class="podio-card coppa">
+            <div class="podio-rank">🏆</div>
+            <div class="podio-label">Vincitore Coppa</div>
+            <div class="podio-name coppa" id="podio-coppa">—</div>
+            <div class="podio-sub" id="podio-coppa-secondo">Finale vs: —</div>
+        </div>
+    </div>
+ 
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Classifica Stagionale</div>
+            <div class="section-line"></div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="num">Pos</th>
+                        <th>Squadra</th>
+                        <th class="num">Punti</th>
+                        <th class="num">Punteggio</th>
+                    </tr>
+                </thead>
+                <tbody id="tabella-stagione"></tbody>
+            </table>
+        </div>
+    </div>
+ 
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Albo d'Oro</div>
+            <div class="section-line"></div>
+        </div>
+        <div class="table-wrap">
+            <table class="albo-table">
+                <thead>
+                    <tr>
+                        <th>Squadra</th>
+                        <th class="num" style="color:var(--gold-light)">🥇 Campionati</th>
+                        <th class="num" style="color:var(--green)">🏆 Coppe</th>
+                        <th class="num" style="color:var(--silver)">🥈 Secondi</th>
+                        <th class="num" style="color:var(--bronze)">🥉 Terzi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="albo-squadra">AM MUERT</td>
+                        <td class="albo-count campionati zero">0</td>
+                        <td class="albo-count coppe zero">0</td>
+                        <td class="albo-count secondi">1</td>
+                        <td class="albo-count terzi">1</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">AC TROTTORIO</td>
+                        <td class="albo-count campionati">1</td>
+                        <td class="albo-count coppe">4</td>
+                        <td class="albo-count secondi">2</td>
+                        <td class="albo-count terzi">2</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">BRIATELLEKERS</td>
+                        <td class="albo-count campionati">1</td>
+                        <td class="albo-count coppe zero">0</td>
+                        <td class="albo-count secondi zero">0</td>
+                        <td class="albo-count terzi">1</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">FC BOTTIGLIA</td>
+                        <td class="albo-count campionati">2</td>
+                        <td class="albo-count coppe">1</td>
+                        <td class="albo-count secondi">1</td>
+                        <td class="albo-count terzi zero">0</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">FC CADAVERI</td>
+                        <td class="albo-count campionati">2</td>
+                        <td class="albo-count coppe zero">0</td>
+                        <td class="albo-count secondi">1</td>
+                        <td class="albo-count terzi">2</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">MSC CIPOLLA</td>
+                        <td class="albo-count campionati zero">0</td>
+                        <td class="albo-count coppe zero">0</td>
+                        <td class="albo-count secondi">1</td>
+                        <td class="albo-count terzi zero">0</td>
+                    </tr>
+                    <tr>
+                        <td class="albo-squadra">HERTA VERNELLO</td>
+                        <td class="albo-count campionati">1</td>
+                        <td class="albo-count coppe zero">0</td>
+                        <td class="albo-count secondi zero">0</td>
+                        <td class="albo-count terzi zero">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ 
+    <footer>
+        Albo d'Oro Ufficiale della Lega &nbsp;·&nbsp; Aggiornato al 2026
     </footer>
-
+ 
     <script>
         const datiStagioni = {
             attuale: {
-                titolo: "Stagione Attuale (2025/26)",
+                titolo: "Stagione 2025/26",
                 campionato: { primo: "FC BOTTIGLIA", secondo: "FC CADAVERI", terzo: "AM MUERT" },
                 coppa: { vincente: "FC BOTTIGLIA", perdente_finale: "AC TROTTORIO" },
                 classifica: [
@@ -174,7 +504,7 @@
                 ]
             },
             "2024_25": {
-                titolo: "Stagione 2024/25 (Scorsa Stagione)",
+                titolo: "Stagione 2024/25",
                 campionato: { primo: "AC TROTTORIO", secondo: "FC CADAVERI", terzo: "AM MUERT" },
                 coppa: { vincente: "AC TROTTORIO", perdente_finale: "FC BOTTIGLIA" },
                 classifica: [
@@ -196,50 +526,49 @@
                 ]
             }
         };
-
-        function aggiornaPagina(chiaveStagione) {
-            const dati = datiStagioni[chiaveStagione];
-            if (!dati) return;
-
-            // Aggiorna Titolo e Podio inserendo i valori testuali in modo sicuro
-            document.getElementById('titolo-stagione').innerText = `✨ ${dati.titolo}`;
-            document.getElementById('podio-1').innerText = dati.campionato.primo;
-            document.getElementById('podio-2').innerText = dati.campionato.secondo;
-            document.getElementById('podio-3').innerText = dati.campionato.terzo;
-            document.getElementById('podio-coppa').innerText = dati.coppa.vincente;
-            document.getElementById('podio-coppa-secondo').innerText = `Finale vs: ${dati.coppa.perdente_finale}`;
-
-            // Rigenera la Tabella
-            const corpoTabella = document.getElementById('tabella-stagione');
-            corpoTabella.innerHTML = "";
-
-            dati.classifica.forEach(item => {
-                let colorePosizione = "text-gray-400";
-                if(item.pos === 1) colorePosizione = "text-emerald-400 font-bold";
-                if(item.pos === 2) colorePosizione = "text-gray-300 font-bold";
-                if(item.pos === 3) colorePosizione = "text-amber-600 font-bold";
-
-                const riga = `
-                    <tr class="hover:bg-gray-800/30 transition">
-                        <td class="p-4 font-semibold ${colorePosizione}">${item.pos}</td>
-                        <td class="p-4 font-semibold">${item.squadra}</td>
-                        <td class="p-4 text-center font-mono">${item.punti}</td>
-                        <td class="p-4 text-center font-mono">${item.punteggio}</td>
-                    </tr>
-                `;
-                corpoTabella.innerHTML += riga;
+ 
+        function aggiornaPagina(chiave) {
+            const d = datiStagioni[chiave];
+            if (!d) return;
+ 
+            const titolo = document.getElementById('titolo-stagione');
+            titolo.classList.remove('fade');
+            void titolo.offsetWidth;
+            titolo.classList.add('fade');
+            titolo.innerHTML = d.titolo.replace(/(\d{4}\/\d{2,4})/, '<span>$1</span>');
+ 
+            document.getElementById('podio-1').innerText = d.campionato.primo;
+            document.getElementById('podio-2').innerText = d.campionato.secondo;
+            document.getElementById('podio-3').innerText = d.campionato.terzo;
+            document.getElementById('podio-coppa').innerText = d.coppa.vincente;
+            document.getElementById('podio-coppa-secondo').innerText = 'Finale vs: ' + d.coppa.perdente_finale;
+ 
+            const tbody = document.getElementById('tabella-stagione');
+            tbody.innerHTML = '';
+            tbody.classList.remove('fade');
+            void tbody.offsetWidth;
+            tbody.classList.add('fade');
+ 
+            d.classifica.forEach(r => {
+                let badgeHTML = `<span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem">${r.pos}</span>`;
+                if (r.pos === 1) badgeHTML = `<span class="badge-pos badge-1">${r.pos}</span>`;
+                if (r.pos === 2) badgeHTML = `<span class="badge-pos badge-2">${r.pos}</span>`;
+                if (r.pos === 3) badgeHTML = `<span class="badge-pos badge-3">${r.pos}</span>`;
+ 
+                tbody.innerHTML += `
+                <tr>
+                    <td class="td-pos">${badgeHTML}</td>
+                    <td class="td-squadra">${r.squadra}</td>
+                    <td class="td-num">${r.punti}</td>
+                    <td class="td-num">${r.punteggio}</td>
+                </tr>`;
             });
         }
-
-        // Ascolta l'evento di cambio sulla select
-        document.getElementById('selettore-stagione').addEventListener('change', function(e) {
-            aggiornaPagina(e.target.value);
-        });
-
-        // Avvio iniziale automatico
-        document.addEventListener("DOMContentLoaded", function() {
-            aggiornaPagina('attuale');
-        });
+ 
+        document.getElementById('selettore-stagione').addEventListener('change', e => aggiornaPagina(e.target.value));
+        document.addEventListener('DOMContentLoaded', () => aggiornaPagina('attuale'));
     </script>
 </body>
 </html>
+ 
+
